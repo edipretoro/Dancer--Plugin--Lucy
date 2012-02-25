@@ -8,8 +8,10 @@ use Lucy::Plan::Schema;
 use Lucy::Plan::FullTextType;
 use Lucy::Analysis::PolyAnalyzer;
 
+use Lucy::Search::IndexSearcher;
+
 register indexer => sub {
-    my $conf = ${ plugin_setting() }{indexer};
+    my $conf = plugin_setting();
     my $schema = Lucy::Plan::Schema->new();
 
     my $polyanalyser = Lucy::Analysis::PolyAnalyzer->new(
@@ -34,7 +36,12 @@ register indexer => sub {
 };
 
 register searcher => sub {
+    my $conf = plugin_setting();
+    my $searcher = Lucy::Search::IndexSearcher->new(
+        index => $conf->{index},
+    );
 
+    return $searcher;
 };
 
 register_plugin;
