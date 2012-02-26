@@ -1,3 +1,5 @@
+# ABSTRACT: Lucy interface for Dancer applications
+
 use strict;
 use warnings;
 package Dancer::Plugin::Lucy;
