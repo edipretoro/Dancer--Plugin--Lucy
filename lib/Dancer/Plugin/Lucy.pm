@@ -31,7 +31,7 @@ register indexer => sub {
     my $indexer = Lucy::Index::Indexer->new(
         schema => $schema,
         index => ${ plugin_setting() }{index},
-        create => $conf->{create},
+        create => $conf->{create} || 0,
     );
 
     return $indexer;
