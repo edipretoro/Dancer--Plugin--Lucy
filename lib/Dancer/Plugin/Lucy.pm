@@ -23,6 +23,7 @@ register searcher => sub {
     my $conf = plugin_setting();
     my $searcher = Lucy::Simple->new(
         path => $conf->{index},
+        language => $conf->{polyanalyser}{language},
     );
 
     return $searcher;
