@@ -5,33 +5,15 @@ use warnings;
 package Dancer::Plugin::Lucy;
 use Dancer ':syntax';
 use Dancer::Plugin;
-use Lucy::Index::Indexer;
-use Lucy::Plan::Schema;
-use Lucy::Plan::FullTextType;
-use Lucy::Analysis::PolyAnalyzer;
 
-use Lucy::Search::IndexSearcher;
+use Lucy::Simple;
 
 register indexer => sub {
     my $conf = plugin_setting();
-    my $schema = Lucy::Plan::Schema->new();
 
-    my $polyanalyser = Lucy::Analysis::PolyAnalyzer->new(
-        language => $conf->{polyanalyser}{language},
-    );
-
-    my $type = Lucy::Plan::FullTextType->new(
-        analyzer => $polyanalyser,
-    );
-
-    foreach my $field ( @{ $conf->{schema}{fields}} ) {
-        $schema->spec_field( name => $field, type => $type );
-    }
-
-    my $indexer = Lucy::Index::Indexer->new(
-        schema => $schema,
+    my $indexer = Lucy::Simple->new(
         index => $conf->{index},
-        create => $conf->{create} || 0,
+        language => $conf->{polyanalyser}{language},
     );
 
     return $indexer;
@@ -39,7 +21,7 @@ register indexer => sub {
 
 register searcher => sub {
     my $conf = plugin_setting();
-    my $searcher = Lucy::Search::IndexSearcher->new(
+    my $searcher = Lucy::Simple->new(
         index => $conf->{index},
     );
 
