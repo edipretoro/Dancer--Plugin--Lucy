@@ -21,7 +21,7 @@ register indexer => sub {
     );
 
     my $type = Lucy::Plan::FullTextType->new(
-        analyser => $polyanalyser,
+        analyzer => $polyanalyser,
     );
 
     foreach my $field ( @{ $conf->{schema}{fields}} ) {
